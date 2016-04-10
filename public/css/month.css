@@ -1,0 +1,18 @@
+#insert_events .input-group{
+	margin-bottom: 5px;
+	height: 34px;
+} 
+.select2-choice{
+	height: 34px !important;
+	border: 0px !important;
+}
+.ui-datepicker{ 
+	z-index: 2000 !important;
+}
+.select2-chosen {
+	height:34px !important;
+	padding-top: 4px;
+}
+td, th{
+	min-width:40px;
+}

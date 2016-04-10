@@ -1,0 +1,210 @@
+.padding0{
+	padding: 0px !important;
+}
+.padding5{
+	padding: 5px !important
+}
+.overflow{
+	overflow:hidden;
+}
+.table tr{
+	height: 40px;
+}
+
+.panel_month .table tr{
+	height:50px;
+}
+.table td, .table th{
+	white-space: nowrap;
+  	overflow: hidden;
+  	text-overflow: ellipsis;
+    min-width: 40px;
+    padding:4px !important;
+}
+#left-bottom .table td, #left-bottom .table th{
+    white-space: nowrap;
+}
+
+.panel{
+	margin-bottom: 10px;
+}
+#table-events .ui-selected {
+	 background: #F39814;
+	 color: white;
+}
+.panel-body{
+	overflow: hidden;
+	background-color: #f8f8f8 !important;
+}
+.create .form-group{
+	padding-right: 10px;
+	padding-bottom: 10px;
+}
+.ccheckbox{
+	padding-top: 20px;
+
+}
+.navbar{
+	border: inherit;
+}
+.navbar-default, .panel-heading, .navbar-brand, .navbar-nav > li > a{
+	background-color: #34495E !important;
+	color: #DDDDDD !important;
+	font-weight: bold !important;
+}
+.navbar-default{
+	margin-bottom: 0px;
+}
+.navbar-form{
+	margin-bottom: 0px;
+}
+.navbar-default .navbar-nav > li > a:hover{
+	color: #FFBF7C !important;
+}
+.col-padding-top-5{
+	padding-top: 5px;
+}
+.panel-heading-month{
+	padding:0px;
+}
+.panel-body ul{
+	list-style-type: none;
+	margin-bottom: 10px;
+	bborder: 1px solid;
+	bborder-color: #dddddd;
+}
+.panel-body li{
+	margin: 5px;
+	padding: 5px;
+	background-color: #DEE2E3;
+	margin-left: -34px;
+}
+.panel-body a{
+	text-decoration: none
+}
+.panel-body .input-group{
+	margin-bottom: 10px;
+}
+button, input, optgroup, select, textarea {
+	color: #2E2E2E;
+}
+.table-striped > tbody > tr:nth-child(2n+1) {
+    background-color: #DEE2E3 ;
+}
+.table-hover > tbody > tr:hover {
+    background-color: #FFFFCC;
+}
+.minwidth120 .input-group-addon:first-child{
+	min-width: 120px;
+	text-align: left;
+}
+.minwidth170 .input-group-addon:first-child{
+	min-width: 170px;
+	text-align: left;
+}
+hr{
+	border-color: #cccccc;
+}
+.well {
+	background-color: #dee2e3;
+}
+.ui-datepicker{
+	width: 20em !important;
+}
+.form-float{
+	float: left;
+	margin-right: 5px;
+}
+.border-option{
+	border: 1px solid grey;
+	margin: 5px;
+}
+
+.orderbycol{
+	color: blue;
+}
+.panel-heading{
+	paddintg: 7px 10px;
+}
+.entry, .ui-selectable {
+	cursor: pointer;
+	cursor: hand;
+}
+/* css for overflow */
+#left{
+	padding-right: 0px !important;
+}
+#left-bottom{
+	overflow-y: hidden;
+	overflow-x: hidden;
+}
+#right-top{
+	overflow-x:hidden;
+}
+#right-bottom{
+	overflow:auto;
+	height:100%;
+}
+
+@media (max-width: 1060px) {
+	.form-group .form-control, .form-group button, .form-group label, .form-group input, .form-group i{
+		margin-bottom: 5px !important;
+		display:inline;
+	}
+	#day{
+		width: 120px;
+	}
+	.form-control{
+		display:inline;
+	}
+
+}
+
+.scrolly{
+	overflow-y: scroll !important;
+}
+
+.ui-tooltip, .arrow:after {
+	background: black;
+	border: 2px solid white;
+}
+.ui-tooltip {
+	padding: 10px 20px;
+	color: white;
+	border-radius: 20px;
+	font: bold 14px "Helvetica Neue", Sans-Serif;
+	text-transform: uppercase;
+	box-shadow: 0 0 7px black;
+}
+.arrow {
+	width: 70px;
+	height: 16px;
+	overflow: hidden;
+	position: absolute;
+	left: 50%;
+	margin-left: -35px;
+	bottom: -16px;
+}
+.arrow.top {
+	top: -16px;
+	bottom: auto;
+}
+.arrow.left {
+	left: 20%;
+}
+.arrow:after {
+	   content: "";
+	position: absolute;
+	left: 20px;
+	top: -20px;
+	width: 25px;
+	height: 25px;
+	box-shadow: 6px 5px 9px -9px black;
+	-webkit-transform: rotate(45deg);
+	-ms-transform: rotate(45deg);
+	transform: rotate(45deg);
+}
+.arrow.top:after {
+	bottom: -20px;
+	top: auto;
+}

@@ -1,0 +1,108 @@
+<!--@foreach($items as $item)
+                        <tr>
+                            <td>
+                                {{$item->name}}
+                            </td>
+                            @foreach($period as $dt)
+                            <td>
+                                {{$i->date}}
+                            </td>
+                            @endforeach
+                        </tr>
+                    @endforeach--
+
+                    <h1>Hallo, </h1>
+                    <h2>Du arbeitest in der }}</h2>
+                    <h2>{{$date->format('Y-m-d')}}</h2>
+                    <h2>{{$endofmonth->format('Y-m-d')}}</h2>
+                    <!--<table class="table table-bordered">
+                    <?php  
+                    foreach ($items as $item)
+                    {
+                        echo '<tr>';
+                        echo '<td>'.
+                              $item->name.
+                              '</td>';    
+                        foreach($item->items as $i)
+                        {
+                            echo '<td>';    
+                            echo $i->date;
+                        }
+                        echo '</tr>';
+                    }
+                    ?>  
+                    </table>-->
+                    
+                    <?php
+                    $interval = DateInterval::createFromDateString('1 day');
+                    $period = new DatePeriod($date, $interval, $endofmonth);
+                ?>
+                
+                
+                
+<!--<div class="panel-body" style="padding: 0px 15px">
+                    <div class="row">
+                        <div class="col-md-1 padding0 overflow">
+                           <table class="table table-bordered padding0">
+                               <tr>
+                                   <th>
+                                       Datum
+                                   </th>
+                           </table>
+                           <table class="table table-bordered padding0">
+                               foreach($items as $item)
+                               <tr>
+                                   <td>
+                                       {$item->name}}
+                                   </td>
+                               </tr>
+                               endforeach
+                           </table>
+                        </div>
+                        <div class="col-md-11 padding0 overflow">
+                            <table class="table table-bordered">
+                                <tr>
+                                    @foreach($period as $dt)
+                                    <th>
+                                    {$dt->format('d.')}}
+                                    </th>
+                                    @endforeach
+                                </tr>
+                            </table>
+                            <table class="table table-bordered">
+                                foreach($items as $item)
+                                <?php
+                                $i=current($item);
+                                ?>
+                                <tr>
+                                    foreach($period as $dt)
+                                    <td>
+                                        <?php
+                                        //echo $i->reason_id;
+                                        /*if ($dt->format('Y-m-d')==$i->date)
+                                        {
+                                            echo $i->reason_id;
+                                            $i=next($item);
+                                        }*/
+                                        ?>
+                                    </td>
+                                    endforeach
+                                </tr>
+                                endforeach
+                            </table>
+                        </div>
+                    </div>
+                </div>-->
+                
+                
+                
+                
+@foreach($item->items as $i)
+                {{$i->date}}/
+                <?php
+                $a=$item->toArray();
+                var_dump($a);
+                next($a);
+                //echo '-'.$i['reason_id'].'<br>';
+                ?>
+                @endforeach

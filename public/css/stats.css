@@ -1,0 +1,28 @@
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+    border-top-width:0px;
+    border-style: none;
+}
+.panel-heading .navbar{
+	border-width:0px;
+
+}
+.panel-heading {
+    padding: 0;
+}
+.panel-heading .navbar-brand{
+	padding: 7px 5px;
+}
+.stats-overflow{
+	overflow-y: scroll;
+}
+td{
+	height:20px;
+	vertical-align: middle;
+	width: 11%;
+}
+table tr{
+	height:20px !important;
+}
+.col-md-10{
+	margin-bottom: 10px;
+}

@@ -1,0 +1,39 @@
+h3{
+	color: #50599B;
+}
+li, .info_body{
+	color: #34495E;
+	font-size: 16px;
+}
+
+.well{
+	margin-bottom: 0px;
+}
+.list_title{
+	margin-bottom: 0px;
+}
+.glyphicon{
+	height: 30px;
+	width: 30px;
+	padding-top: 6px;
+	padding-left: 5px;
+	margin-right: 20px;
+	border-width: 1px;
+	border-color: grey;
+	border-style: solid;
+	border-radius: 30px;
+	background-color: orange;
+}
+.list_title{
+	color: #50599B;
+	font-weight: bold;
+	font-size: 18px;
+	width:100%;
+}
+.list_body{
+	margin-left: 50px;
+}
+.panel-body li{
+	margin-bottom: 0px !important;
+	padding: 0px;
+}

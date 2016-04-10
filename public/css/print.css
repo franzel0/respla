@@ -1,0 +1,19 @@
+@page {
+  size: A4 portrait;
+}
+
+table{
+	border-collapse: collapse;
+}
+#month_table{
+    font-size: 0.7em;
+}
+td, th{
+	border: 1px solid black;
+	min-width:40px;
+	word-wrap: break-word;
+	text-align: left;
+	vertical-align: top;
+    padding: 4px;
+}
+

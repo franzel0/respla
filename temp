@@ -1,0 +1,28 @@
+<?php
+				$onweekend = 1;
+				$entry = \App\Entry::find(13);
+				$events = \App\Event::where("user_id", "=", Auth::user()->id)
+                ->whereBetween('events.date', [$start->toDateString(), $end->toDateString()])
+                ->toSql();
+                echo $events."<br>";
+				?>
+				<h2>Eintrag: {{$entry->name}}</h2>
+				<table class="table table-bordered table-striped">
+					@for ($day = $start; $day <= $end; $day->addDay())
+					<tr>
+						<td>{{$day->formatLocalized('%a %e. %b')}}</td>
+						<td>
+						@if(  (!$entry->onweekend  && (in_array($day->toDateString(), $custom_dates))) || (!$entry->onweekend && $day->isWeekend())) abbrechen
+        				@endif
+        				</td>
+						<td>
+						@if(  ($entry->onweekend == 0 && (in_array($day->toDateString(), $custom_dates))) ) 
+							abbrechen
+						@endif
+						</td>
+						<td>
+						{{!$entry->onweekend}}
+						</td>
+					</tr>
+					@endfor
+                </table>	

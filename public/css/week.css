@@ -1,0 +1,139 @@
+.panel-heading{
+	padding:0px;
+}
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+    border-top-width:0px;
+    border-top-style: none;
+}
+@media (min-width: 768px) {
+	
+	.date-width{
+		width: 100px !important;
+	}
+	.week-width{
+		width: 50px !important;
+	}
+
+}
+.rrow{
+	display: table;
+}
+.table-div{
+	width:12.5%;
+	ffloat:left;
+	display: table-cell;
+	height:100%;
+}
+.week-title{
+	height:100%;
+	background-color: lightblue;
+	display: table;
+}
+.table-div2{
+	height:100%;
+}
+table{
+	border-collapse: collapse;
+	table-layout: fixed;
+}
+td{
+	border:1px solid grey;
+}
+h3{
+	margin-top:0px;
+	text-align: center;
+}
+
+.week-overflow{
+	overflow-y:scroll;
+}
+.week-overflow-header{
+	overflow-y:scroll;
+}
+@media (max-width: 768px) {
+	
+	table{
+		table-layout: fixed;
+	}
+	td{
+		min-width:40px;
+	}
+	.week-overflow{
+		overflow-x: scroll;
+	}
+	.col-xs-2{
+		padding:1px;
+	}
+
+}
+.table-data{
+	background-color: #e0ebee;	
+}
+.well{
+	margin-top: 2px ;
+	margin-bottom: 2px ;
+}
+.panel-body{
+	padding-top:0px;
+	padding-bottom: 0px;
+}
+tr, td{
+	height:30px;
+}
+
+/*Override -2 columns for a 7 day week (12.5%)*/
+@media (min-width: 992px){
+	.col-md-2 {
+	    width: 12.5% ;
+	}
+}
+@media (min-width: 992px){
+	.col-md-2{
+	    float: left ;
+	}
+}
+@media (min-width: 768px){
+	.col-sm-2 {
+	    width: 12.5% ;
+	}
+}
+@media (min-width: 768px){
+	.col-sm-2{
+	   float: left ;
+	}
+}
+.col-xs-2 {
+    width: 12.5% ;
+}
+.col-xs-2 {
+    float: left ;
+}
+.col-xs-2, .col-sm-2, .col-md-2, .col-lg-2{
+    position: relative;
+    min-height: 1px;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+.weekend{
+    background-color: #ED7600;
+}
+.customdate{
+    background-color: #CC6600;
+}
+.holiday{
+    background-image: url({{URL::asset('img/holiday.png')}});
+    background-size: auto 100%;
+    background-repeat: no-repeat;
+}
+.table-data th{
+	padding: 0px;
+}
+.table-data .input-group{
+	margin-bottom: 0px;
+}
+.table-data .form-control{
+	padding: 3px 3px;
+}
+.comment{
+	display:inline;
+}

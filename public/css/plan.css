@@ -1,0 +1,88 @@
+.select2-container .select2-choice {
+	border: 0px;
+	height:32px;
+	padding-top: 2px;
+}
+.drag, .drop span{
+	border: 1px solid grey;
+	border-radius: 12px;
+	background-color: lightgrey;
+	padding:2px 4px;
+	margin-left:2px;
+	min-height: 30px;
+}
+.ui-draggable-dragging{
+	background-color: #ff9900;
+	color: 1px solid #663d00;
+}
+.drag .btn{
+	padding:0px 8px;
+	margin:2px;
+	border-radius: 8px;
+}
+#users td, #users th{
+	border: none;
+}
+
+.userdata, .statsdata{
+	position: absolute;
+	top: 0px;
+	width:90%;
+	display: none;
+	table-layout: fixed;
+}
+.userdatatitle{
+	position: absolute;
+	top: 0px;
+	width:90%;
+	table-layout: fixed;
+}
+.statsdata{
+	margin-left: 10px;
+}
+.fullheight{
+	height:inherit;
+}
+td, th{
+	vertical-align: middle !important;
+}
+td span{
+	float:left;
+}
+#events, #stats{
+	table-layout: fixed;
+}
+#panel-body{
+	background-color: #DEE2E3;
+}
+.select2-container .select2-choice > .select2-chosen {
+	width: 120px;
+}
+.panel-body-navbar-form{
+	margin-left: -15px;
+}
+.panel-heading{
+	padding:0px;
+}
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+    border-top-width:0px;
+    border-top-style: none;
+}
+.plan-overflow, .plan-title-overflow{
+	overflow-y: scroll;
+}
+.div-stats{
+	padding: 10px 0px;
+}
+#users{
+	table-layout: fixed;
+}
+.title-form{
+	padding-top: 5px;
+}
+/* Large devices (large desktops, 1200px and up) */
+@media (max-width: 1300px) {
+	.panel-body-navbar-form{
+		padding-bottom: 8px;
+	}
+}
