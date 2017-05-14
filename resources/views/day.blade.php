@@ -59,6 +59,9 @@
 .notapproved{
   background-image: url({{ URL::asset('/img/bg.png') }});
 }
+.present_na{
+    background-image: url({{ URL::asset('/img/bg_present_na.png') }});
+}
 
 </style>
 
@@ -69,7 +72,7 @@
 @endsection
 
 @section('content')
-<?php 
+<?php
 $monate = array(1=>"Januar",
                 2=>"Februar",
                 3=>"M&auml;rz",
@@ -99,26 +102,26 @@ setlocale(LC_TIME, 'German');
             <div class="panel panel-default">
                 {!!Form::open(['action' => 'EventController@showDay', 'method' => 'post', 'class' => 'navbar-form', 'role' => 'search'])!!}
                 <div class="panel-heading">
-                    <span class="hidden-sm hidden-xs">Tag</span> 
+                    <span class="hidden-sm hidden-xs">Tag</span>
                     <div class="form-group">
                         {!!Form::button('<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>', array('name' => 'back', 'class' => '           btn btn-primary', 'type' => 'submit', 'value' => '1'))!!}
-                    
-                        <span class="hidden-sm hidden-xs">Datum</span>     
+
+                        <span class="hidden-sm hidden-xs">Datum</span>
                         {!! Form::text('day', $day->formatLocalized('%d.%m.%Y'), ['class' => 'form-control', 'id' => 'day', 'required' => 'required', '         title' =>'Datum eingeben']) !!}
-                    
+
                         {!!Form::button('<span class="glyphicon glyphicon-search" aria-hidden="true"></span>', array('class' => 'btn btn-primary', 'type' =>            'submit', 'value' => '1'))!!}
-                    
+
                         {!!Form::button('<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>', array('name' => 'next', 'class' =>            'btn btn-primary', 'type' => 'submit', 'value' => '1'))!!}
-                    
+
                         {!!Form::submit('Heute', array('name' => 'today', 'class' => 'btn btn-primary'))!!}
 
                         <span class="form-group">
                         <a href="{{action('PdfController@day', ['department' => Auth::user()->department_id, 'date' => $day->toDateString(), 'orderbycol' => $orderbycol])}}" class="btn btn-primary" target="_blank"><i class="glyphicon glyphicon-print" aria-hidden="true"></i></a>
-                        </span> 
+                        </span>
                     </div>
-                    @if($errors->first('day')) 
+                    @if($errors->first('day'))
                     <span style="color: #A94442;">
-                        Bitte ein gültige Datum eingeben 
+                        Bitte ein gültige Datum eingeben
                     </span>
                     @endif
                 </div>
@@ -170,22 +173,22 @@ setlocale(LC_TIME, 'German');
                                             <tbody>
                                                 @foreach ($events as $e)
                                                 <tr data-id="{{$e->uid}}">
-                                                    <td class="col1 {{$e->class}} {{$e->class2}} @if($customdate->count()>0) customdate @endif @if($day->isWeekend()) weekend @endif">
+                                                    <td class="col1 {{$e->class}} {{$e->class2}} @if($customdate->count()>0) customdate @endif @if($day->isWeekend()) weekend @endif @if($e->entrypresent && $e->class2 == 'notapproved')present_na @endif">
                                                         {{$e->fullname}}
                                                     </td>
-                                                    <td class="col2 {{$e->class}} {{$e->class2}} @if($customdate->count()>0) customdate @endif @if($day->isWeekend()) weekend @endif">
+                                                    <td class="col2 {{$e->class}} {{$e->class2}} @if($customdate->count()>0) customdate @endif @if($day->isWeekend()) weekend @endif @if($e->entrypresent && $e->class2 == 'notapproved')present_na @endif">
                                                         {{$e->secname}}
                                                     </td>
-                                                    <td class="col3 {{$e->class}} {{$e->class2}} @if($customdate->count()>0) customdate @endif @if($day->isWeekend()) weekend @endif entry" data-approved="{{$e->class2}}">
+                                                    <td class="col3 {{$e->class}} {{$e->class2}} @if($customdate->count()>0) customdate @endif @if($day->isWeekend()) weekend @endif entry @if($e->entrypresent && $e->class2 == 'notapproved')present_na @endif" data-approved="{{$e->class2}}">
                                                         {{$e->entryname}}
                                                     </td>
-                                                    <td class="col4 {{$e->class}} {{$e->class2}} @if($customdate->count()>0) customdate @endif @if($day->isWeekend()) weekend @endif entry" data-approved="{{$e->class2}}">
+                                                    <td class="col4 {{$e->class}} {{$e->class2}} @if($customdate->count()>0) customdate @endif @if($day->isWeekend()) weekend @endif entry @if($e->entrypresent && $e->class2 == 'notapproved')present_na @endif" data-approved="{{$e->class2}}">
                                                         {{$e->eventscomment}}
                                                     </td>
                                                 </tr>
                                                 @endforeach
                                             </tbody>
-                                        </table> 
+                                        </table>
                                     </div>
                                 </div>
                             </div>
@@ -197,18 +200,18 @@ setlocale(LC_TIME, 'German');
                                     border: 1px solid darkgrey !important;
                                 }
                                 </style>
-    
+
                                 <div class="panel-heading">
                                     Details
                                 </div>
                                 <div class="panel-body">
-                                
+
                                     <div id="details-list" class="well well-sm" style ="padding: 5px; margin-bottom: 0px;">
-                                            <div class="col-md-12"> 
+                                            <div class="col-md-12">
                                                 Datum:<br>
-                                                {{$day->formatLocalized('%A %e. %B %Y')}} 
-                                                @if($customdate->count()>0 && $customdate->first()->cusname!="") 
-                                                , {{$customdate->first()->cusname}} 
+                                                {{$day->formatLocalized('%A %e. %B %Y')}}
+                                                @if($customdate->count()>0 && $customdate->first()->cusname!="")
+                                                , {{$customdate->first()->cusname}}
                                                 @endif
                                                 @if ($holiday->count()>0)
                                                 <hr>
@@ -217,17 +220,17 @@ setlocale(LC_TIME, 'German');
                                                 {{$h->name}}<br>
                                                 @endforeach
                                                 @endif
-                                            
-                                                
-                                                <hr>                                            
+
+
+                                                <hr>
                                                 {!! Form::label('comment', 'Bemerkung') !!}<br>
                                                 <div class="form-group @if($errors->first('comment')) has-error @endif">
                                                     {!! Form::hidden('commentid',  ($comment->count()>0) ? $comment->first()->id : '' )!!}
-                                                    {!! Form::textarea('depcomment', ($comment->count()>0) ? $comment->first()->text : '', ['class' => 'form-  control', 'rows' => '2',  'style' => 'width:100%', 'name' => 'comment']) !!}  
+                                                    {!! Form::textarea('depcomment', ($comment->count()>0) ? $comment->first()->text : '', ['class' => 'form-  control', 'rows' => '2',  'style' => 'width:100%', 'name' => 'comment']) !!}
                                                 </div>
                                                 {!! Form::submit("Speichern", ['class' => 'btn btn-success', 'name' => 'save_comment']) !!}
                                                 <br>
-                                                
+
                                             <hr>
                                             </div>
                                         <!--<div class="row">-->
@@ -249,7 +252,7 @@ setlocale(LC_TIME, 'German');
                                                     @if ($e->entrypresent == 1 && $e->entrycount > 0)
                                                     <tr>
                                                         <td>
-                                                            {{$e->entryname}} 
+                                                            {{$e->entryname}}
                                                         </td>
                                                         <td>
                                                             {{$e->entrycount}}
@@ -273,7 +276,7 @@ setlocale(LC_TIME, 'German');
                                                     @if ($e->entrypresent == 0 && $e->entrycount > 0)
                                                     <tr>
                                                         <td>
-                                                            {{$e->entryname}} 
+                                                            {{$e->entryname}}
                                                         </td>
                                                         <td>
                                                             {{$e->entrycount}}
@@ -286,7 +289,7 @@ setlocale(LC_TIME, 'German');
                                         <!--</div>-->
                                     </div>
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -294,7 +297,7 @@ setlocale(LC_TIME, 'German');
                 {!!Form::close() !!}
             </div>
         </div>
-    </div>   
+    </div>
 </div>
 <?php
 //print_r($events_summary);

@@ -70,37 +70,31 @@
     						  </button>
     						  <a class="navbar-brand" href="#">Woche</a>
     						</div>
-                		
+
                 			<!-- Collect the nav links, forms, and other content for toggling -->
     						<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
-                			
-                				{!!Form::open(['action' => 'EventController@showWeek', 'method' => 'post', 'class' => 'navbar-form navbar-left', 'role' => 'search', 'style' => 'display: inline', 'id' => 'week-form'])!!}
-                					
-                					{!!Form::button('<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>', array('name' => 'back', 'class' => 'btn btn-primary', 'type' => 'submit', 'value' => '1'))!!}
-                    
-                        			{!!Form::button('<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>', array('name' => 'next', 'class' =>            'btn btn-primary', 'type' => 'submit', 'value' => '1'))!!}
-                    
-                        			{!!Form::submit('Heute', array('name' => 'today', 'class' => 'btn btn-primary'))!!}
-      						
-                					<div class="input-group">
-                						<span class="input-group-addon " id="sizing-addon1">Datum</span>
-                						{!! Form::text('day', $day->formatLocalized('%d.%m.%Y'), ['class' => 'form-control date-width', 'id' => 'day', 'required' => 'required', 'title' =>'Datum eingeben']) !!}
-                						<span class="input-group-btn">
-                						{!!Form::button('<span class="glyphicon glyphicon-search" aria-hidden="true"></span>', array('class' => 'btn btn-primary', 'type' => 'submit', 'value' => 'date'))!!}                						
-      									</span>
-                					</div>
-			
-                					<div class="input-group">
-                						<span class="input-group-addon " id="sizing-addon1">Woche</span>
-                						{!! Form::text('weekOfYear', $weekOfYear, ['name' => 'weekofyear', 'class' => 'form-control week-width', 'id' => 'weekOfYear', 'required' => 'required', 'title' => 'Kalenderwoche eingeben']) !!}
-                						<span class="input-group-btn">
-                						{!! Form::submit('Go!', ['name' => 'setweekofyear', 'class' => 'btn btn-primary', 'value' => 'weekofyear']) !!}
-      									</span>
-                					</div>
-                		                   
+
+                                {!!Form::open(['action' => 'EventController@showWeek', 'method' => 'post', 'class' => 'navbar-form navbar-left', 'id' =>'week-navbar', 'role' => 'search', 'style' => 'display: inline', 'id' => 'week-form'])!!}
+                                    <div class="form-group">
+
+                					    {!!Form::button('<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>', array('name' => 'back', 'class' => 'btn btn-primary', 'type' => 'submit', 'value' => '1'))!!}
+
+                        			    {!!Form::button('<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>', array('name' => 'next', 'class' =>            'btn btn-primary', 'type' => 'submit', 'value' => '1'))!!}
+
+                        			    {!!Form::submit('Heute', array('name' => 'today', 'class' => 'btn btn-primary'))!!}
+
+                                        {!!Form::label('day', 'Datum', array('class' => 'hidden-xs'))!!}
+                                        {!!Form::text('day', $day->formatLocalized('%d.%m.%Y'), ['class' => 'form-control date-width', 'id' => 'day', 'required' => 'required', 'title' =>'Datum eingeben']) !!}
+                					    {!!Form::button('<span class="glyphicon glyphicon-search" aria-hidden="true"></span>', array('class' => 'btn btn-primary', 'type' => 'submit', 'value' => 'date'))!!}
+
+                                        {!!Form::label('weekofyear', 'Woche', array('class' => 'hidden-xs'))!!}{!!Form::label('weekofyear', 'Wo', array('class' => 'show-xs'))!!}
+                					    {!!Form::text('weekOfYear', $weekOfYear, ['name' => 'weekofyear', 'class' => 'form-control week-width', 'id' => 'weekOfYear', 'required' => 'required', 'title' => 'Kalenderwoche eingeben']) !!}
+                					    {!!Form::submit('Go!', ['name' => 'setweekofyear', 'class' => 'btn btn-primary', 'value' => 'weekofyear']) !!}
+
+                                    </div>
                 				{!!Form::close()!!}
-                			
-                			</div>	
+
+                			</div>
                 		</div>
                 	</nav>
                 </div>
@@ -134,7 +128,7 @@
                                     <table class="table table-bordered table-data">
                                         <tr>
                                             <th title="@if($c=$comments->get($day->toDateString())) {{$c->text}} @endif">
-                                                <div class="input-group">                                                        
+                                                <div class="input-group">
                                                     <input type="text" value="@if($c=$comments->get($day->toDateString())) {{$c->text}} @endif" class="form-control">
                                                     <span class="input-group-btn">
                                                         <button class="btn btn-default btn-comment" value="@if($c=$comments->get($day->toDateString())) {{$c->id}} @else 0 @endif" type="button" data-date="{{$day->toDateString()}}">K!</button>
@@ -199,13 +193,13 @@
                                 @endforeach
                             </div>
                         </div>
-                    </div> 
+                    </div>
                     <div class="row well well-sm">
                         <h3>Abwesend</h3>
                         <div class="col-md-12 col-sm-12 col-xs-12  week-overflow">
                             <div class="row">
                                 <div class="col-md-2 col-sm-2 col-xs-2">
-                                    
+
                                 </div>
                                 <?php
                                 $count_array = array();
@@ -217,7 +211,7 @@
                                 <div class="col-md-2 col-sm-2 col-xs-2">
                                     <table class="table table-bordered table-data">
                                         @foreach ($events[$day->toDateString()] as $e)
-                                            @if($e->entrypresent==0  || ($e->entrypresent==2 && ($day->isweekend() || in_array($day->toDateString(), $customdates)))) 
+                                            @if($e->entrypresent==0  || ($e->entrypresent==2 && ($day->isweekend() || in_array($day->toDateString(), $customdates))))
                                             <tr>
                                                 <td class="{{$e['class']}} {{$e['class2']}} entry" title="{{$e->entryname}}, {{$e->eventscomment}}" data-id="{{$e->uid}}" data-approved="{{$e->class2}}" data-date="{{$day->toDateString()}}">{{$e->fullname}}</td>
                                             </tr>
@@ -257,7 +251,7 @@
             </div>
         </div>
     </div>
-</div>                                                          
+</div>
 @endsection
 
 <!--

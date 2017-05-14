@@ -13,7 +13,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 {
     use Authenticatable, CanResetPassword;
 
-    use EntrustUserTrait; 
+    use EntrustUserTrait;
 
     /**
      * The database table used by the model.
@@ -27,7 +27,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      *
      * @var array
      */
-    protected $fillable = ['name', 'firstname', 'lastname', 'email', 'position_id', 'section_id', 'active', 'department_id', 'company_id', 'password'];
+    protected $fillable = ['name', 'firstname', 'lastname', 'email', 'position_id', 'section_id', 'active', 'department_id', 'company_id', 'password', 'confirmed', 'confirmation_code', 'phone1', 'phone2'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -42,29 +42,29 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
     public function company()
     {
-        return $this->department->belongsTo('App\Company');    
+        return $this->department->belongsTo('App\Company');
     }
     public function position()
     {
-        return $this->hasOne('App\Position', 'id', 'position_id');    
+        return $this->hasOne('App\Position', 'id', 'position_id');
     }
     public function section()
     {
-        return $this->hasOne('App\Section', 'id', 'section_id');    
-    } 
-    
+        return $this->hasOne('App\Section', 'id', 'section_id');
+    }
+
     public function events()
     {
-        return $this->hasMany('App\Event');         
+        return $this->hasMany('App\Event');
     }
-    
+
     public function itemsbetween($from, $to)
     {
         return $this->items
                     ->where('date', '>=', $from)
                     ->where('date', '<=', $to);
     }
-    
+
     public function create_user()
     {
     }
@@ -77,5 +77,13 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function getFullName()
     {
         return $this->attributes['firstname'] .' '. $this->attributes['lastname'];
+    }
+
+    /**
+     * The oncalls that belong to the user.
+     */
+    public function oncalls()
+    {
+        return $this->belongsToMany('App\Entry')->where('isactive', '=', 1);
     }
 }

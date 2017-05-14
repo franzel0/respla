@@ -14,6 +14,9 @@ class AddVotesToEntriesTable extends Migration
     {
         Schema::table('entries', function (Blueprint $table) {
             $table->boolean('onweekend');
+            $table->time('timefrom');
+            $table->time('timeto');
+            $table->boolean('customtime');
         });
     }
 

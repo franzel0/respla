@@ -32,7 +32,7 @@ class AuthController extends Controller
     protected $username = 'name';
 
     protected $redirectPath = '/month';
-    
+
     /**
      * Create a new authentication controller instance.
      *
@@ -88,7 +88,7 @@ class AuthController extends Controller
     public function postLogin(Request $request)
     {
         $this->validate($request, [
-            'name' => 'required|max:255', 
+            'name' => 'required|max:255',
             'password' => 'required|max:60',
         ]);
 
@@ -103,9 +103,9 @@ class AuthController extends Controller
         }
 
         $credentials = array('name' => $request->name, 'password' => $request->password, 'active' => 1, 'confirmed' => 1);
-
+        
         if (Auth::attempt($credentials, $request->has('remember'))) {
-            
+
             Log::info('User: '.Auth::user()->id." logged in from: ".$request->getClientIp(true));
             return $this->handleUserWasAuthenticated($request, $throttles);
         }
@@ -124,7 +124,7 @@ class AuthController extends Controller
         return redirect($this->loginPath())
             ->withInput($request->only($this->loginUsername(), 'remember'))
             ->withErrors(['message' => 'Etwas stimmt nicht. Bitte versuchen Sie es erneut.']);
-    } 
+    }
 
     /**
      * Handle a registration request for the application.
@@ -145,7 +145,7 @@ class AuthController extends Controller
         $confirmation_code = str_random(30);
 
         //Auth::login($this->create($request->all()));
-        
+
         // Creating the company
         $company = new \App\Company;
 
@@ -167,7 +167,7 @@ class AuthController extends Controller
         $section->fullname = $request->section_fullname;
         $section->shortname = $request->section_shortname;
 
-        $newsection = $newdepartment->sections()->save($section);
+        $newsection = \App\Department::find($newdepartment->id)->sections()->save($section);
 
         //Creating a position
 
@@ -218,19 +218,19 @@ class AuthController extends Controller
             ]);
 
         $newdepartment->entries()->save($entry);
-        
+
         //Creating User
         $user = new \App\User([
             'name' => $request->name,
             'lastname' => $request->lastname,
             'firstname' => $request->firstname,
             'company_id' => $company->id,
-            'section' => $newsection->id,
-            'position' => $newposition->id,
+            'section_id' => $newsection->id,
+            'position_id' => $newposition->id,
             'active' => 1,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            'confirmation_code' => $confirmation_code
+            'confirmation_code' => $confirmation_code,
         ]);
 
         $newdepartment->users()->save($user);
@@ -250,5 +250,5 @@ class AuthController extends Controller
         $request->session()->flash('verification', 'Vielen Dank für Ihre Anmeldung. Bitte schauen Sie in Ihr E-Mail Fach, um die Registrieung abzuschliessen..');
 
         return redirect('/');
-    }  
+    }
 }

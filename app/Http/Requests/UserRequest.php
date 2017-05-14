@@ -18,13 +18,13 @@ class UserRequest extends Request
         {
             return true;
         }
-        $departments = \App\Company::find(Auth::user()->company->id)->departments; 
+        $departments = \App\Company::find(Auth::user()->company->id)->departments;
 
         $users = \App\Company::find(Auth::user()->company->id)->sameCompanyUsers;
-        
+
         if(
-            Auth::user()->hasRole('companyadmin') && 
-            Auth::user()->company->id == $this->route('company') && 
+            Auth::user()->hasRole('companyadmin') &&
+            Auth::user()->company->id == $this->route('company') &&
             ($departments->contains("id", $this->route('department')) || $this->route('department') == false) &&
             ($users->contains("id", $this->route('user')) || $this->route('user') == false)
         )
@@ -33,7 +33,11 @@ class UserRequest extends Request
         }
         $users = \App\Department::find(Auth::user()->department->id)->users;
         if(Auth::user()->hasRole('localadmin') && Auth::user()->company->id == $this->route('company') &&  Auth::user()->department_id == $this->route('department') && ($users->contains("id", $this->route('user')) || $this->route('user') == false))
-        { 
+        {
+            return true;
+        }
+        if(Auth::user()->department_id == $this->route("department"))
+        {
             return true;
         }
     }

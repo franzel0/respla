@@ -219,8 +219,7 @@ class lists{
 
             //Check if event is approved and return class approved
 
-            $r['event_name'] = $short_weekday[$day->format('N')];
-            $r['event_name'] .= ($customdate_name<>"") ? ', '.$customdate_name : "";
+            $r['event_name'] = ($customdate_name<>"") ? $customdate_name : "";
 
             // check if event on $day
             if (!$events->isEmpty() && $day->toDateString() == $events->first()->date)
@@ -229,8 +228,9 @@ class lists{
                 $r['event_shortname'] = $events->first()->entry->shorttext;
                 $r['event_name'] .= ', '.$events->first()->entry->name;
                 $notapproved = ($events->first()->approved == 0) ? ' notapproved ' : ' approved';
+                $bg_present_na = ($events->first()->approved == 0 && $events->first()->entry->present == 1) ? ' present_na' : '';
                 $r['notapproved'] = $notapproved;
-                $r['class'] = "item".$events->first()->entry->id.$weekend.$customdate_class.$notapproved;
+                $r['class'] = "item".$events->first()->entry->id.$weekend.$customdate_class.$notapproved.$bg_present_na;
                 $r['comment'] = $events->first()->comment;
                 $events->shift();
             }

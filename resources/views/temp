@@ -16,30 +16,30 @@
                     <h2>{{$date->format('Y-m-d')}}</h2>
                     <h2>{{$endofmonth->format('Y-m-d')}}</h2>
                     <!--<table class="table table-bordered">
-                    <?php  
+                    <?php
                     foreach ($items as $item)
                     {
                         echo '<tr>';
                         echo '<td>'.
                               $item->name.
-                              '</td>';    
+                              '</td>';
                         foreach($item->items as $i)
                         {
-                            echo '<td>';    
+                            echo '<td>';
                             echo $i->date;
                         }
                         echo '</tr>';
                     }
-                    ?>  
+                    ?>
                     </table>-->
-                    
+
                     <?php
                     $interval = DateInterval::createFromDateString('1 day');
                     $period = new DatePeriod($date, $interval, $endofmonth);
                 ?>
-                
-                
-                
+
+
+
 <!--<div class="panel-body" style="padding: 0px 15px">
                     <div class="row">
                         <div class="col-md-1 padding0 overflow">
@@ -93,10 +93,10 @@
                         </div>
                     </div>
                 </div>-->
-                
-                
-                
-                
+
+
+
+
 @foreach($item->items as $i)
                 {{$i->date}}/
                 <?php
@@ -106,3 +106,9 @@
                 //echo '-'.$i['reason_id'].'<br>';
                 ?>
                 @endforeach
+
+                @foreach($events->filter(function($item) use ($day, $e) {if($item->date == $day->toDateString()&& $item->entry_id == $e->id) return true;}) as $ev)
+                    {{$ev->user->lastname}}
+                @endforeach
+
+                filter(function($item) use ($day, $e) {if($item->date == $day->toDateString()&& $item->entry_id == $e->id) return true;})

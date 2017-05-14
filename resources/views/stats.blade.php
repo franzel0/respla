@@ -10,14 +10,14 @@
 @section('scripts')
 <script>
 $(document).ready(function(){
-	
+
 function el_height(){
-    //inactivated as drag & drop does not work anymore with this function activated       
+    //inactivated as drag & drop does not work anymore with this function activated
     var h = $( window ).height();
     try {
         var p = $(".panel-body").offset();
         var height = h - p.top - 20 ;
-        
+
         $(".stats-overflow").css("height", height);
 
     }
@@ -36,7 +36,7 @@ el_height();
 */
 $( window ).resize(function(){
   el_height();
-    }); 
+    });
 
 })
 
@@ -95,20 +95,20 @@ $weekday = array(2 => "Montag",
                     			    </div>
                     			    <div class="form-group @if($errors->first('month')) has-error @endif">
                     			        {!!Form::label('month', 'Monat', array('class' => 'hidden-xs'))!!}
-                    			        {!!Form::select('month', $months, $startofmonth->month, array('class' => 'form-control'))!!}
+										{!! Form::selectMonth('month', $startofmonth->month, array('class' => 'form-control'))!!}
                     			        <small class="text-danger">{{ $errors->first('month') }}</small>
                     			    </div>
                     			    <div class="form-group @if($errors->first('year')) has-error @endif">
                     			        {!!Form::label('year', 'Jahr', array('class' => 'hidden-xs'))!!}
-                    			        {!!Form::text('year', $startofmonth->year, array('size' => '4', 'placeholder' => 'Jahr', 'class' => 'form-control'))    !!}
+										{!!Form::text('year', $startofmonth->year, array('size' => '4', 'placeholder' => 'Jahr', 'class' => 'form-control'))    !!}
                     			    	<small class="text-danger">{{ $errors->first('year') }}</small>
                     			    </div>
                     			    <div class="form-group">
                     			        {!!Form::button('<span class="glyphicon glyphicon-search" aria-hidden="true"></span>', array('class' => 'btn btn-primary', 'type' => 'submit'			, 'value' => '1'))!!}
-                    			    </div> 
+                    			    </div>
                     			    <div class="form-group">
                     			        {!!Form::submit('JETZT', array('name' => 'this', 'class' => 'btn btn-primary'))!!}
-                    			    </div> 
+                    			    </div>
                     			    <div class="form-group">
                     			        {!!Form::button('<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>', array('name' => 'next', 'class' => 'btn btn-primary', 'type' => 'submit', 'value' => '1'))!!}
                     			    </div>
@@ -118,7 +118,7 @@ $weekday = array(2 => "Montag",
                     	</div>
                     </nav>
 				</div>
-				
+
 				<div class="panel-body stats-overflow">
 					<div class="row">
 						<div class="col-md-10 col-md-offset-1">

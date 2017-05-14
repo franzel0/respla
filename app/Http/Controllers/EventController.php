@@ -403,7 +403,7 @@ class EventController extends Controller
             foreach($events as $e)
             {
                 $badge = ($e['comment']<>'') ? '<br><span class="badge">K</span>' : '';
-                $html .= "<td class='".$e['class']."' title='Datum: ".date('D', strtotime($e['date']))."&#10;Eintrag: ".$e['event_name']."&#10;Bemerkung: ".$e['comment']."' data-date='".$e['date']."' data-event_id=".$e['event_id']." data-approved=".$e['notapproved'].">".$e['event_shortname'].$badge."</td>";
+                $html .= "<td class='".$e['class']."' title='Datum: ".strftime('%A', strtotime($e['date']))."&#10;Eintrag: ".$e['event_name']."&#10;Bemerkung: ".$e['comment']."' data-date='".$e['date']."' data-event_id=".$e['event_id']." data-approved=".$e['notapproved'].">".$e['event_shortname'].$badge."</td>";
             }
         }
 
@@ -418,11 +418,11 @@ class EventController extends Controller
                             ->leftjoin('entries', 'e.entry_id', '=', 'entries.id')
                             ->selectRaw('CONCAT(lastname, ", ", firstname) as fullname, positions.name as posname, positions.priority as posp, sections.fullname as secname, CONCAT("item", entries.id) as class, if(approved=1 or e.id is null, "approved", "notapproved") as class2, users.id as uid, e.id as eventid, e.comment as eventscomment, entries.name as entryname, if (entries.present = 1 , 1, if(entries.present = 0, 2, 0)) as entrypresent')
                             ->first();
-
-            $html = "<td class='col1 ".$event->class." ".$event->class2."'>".$event->fullname."</td>
-                     <td class='col2 ".$event->class." ".$event->class2."'>".$event->secname."</td>
-                     <td class='col3 ".$event->class." ".$event->class2." entry'>".$event->entryname."</td>
-                     <td class='col4 ".$event->class." ".$event->class2." entry'>".$event->eventscomment."</td>"; // $html = $event;
+            $present_na = ($event->entrypresent && $event->class2 == 'notapproved') ? "present_na" : "w";
+            $html = "<td class='col1 ".$event->class." ".$event->class2." ".$present_na."'>".$event->fullname."</td>
+                     <td class='col2 ".$event->class." ".$event->class2." ".$present_na."'>".$event->secname."</td>
+                     <td class='col3 ".$event->class." ".$event->class2." ".$present_na." entry'>".$event->entryname."</td>
+                     <td class='col4 ".$event->class." ".$event->class2." ".$present_na." entry'>".$event->eventscomment."</td>"; // $html = $event;
 
         }
 

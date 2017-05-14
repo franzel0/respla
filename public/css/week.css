@@ -1,12 +1,12 @@
 .panel-heading{
 	padding:0px;
 }
-.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+/*.navbar-default .navbar-collapse, .navbar-default .navbar-form {
     border-top-width:0px;
     border-top-style: none;
-}
+}*/
 @media (min-width: 768px) {
-	
+
 	.date-width{
 		width: 100px !important;
 	}
@@ -51,7 +51,7 @@ h3{
 	overflow-y:scroll;
 }
 @media (max-width: 768px) {
-	
+
 	table{
 		table-layout: fixed;
 	}
@@ -64,10 +64,22 @@ h3{
 	.col-xs-2{
 		padding:1px;
 	}
-
+	.navbar-form .form-group{
+		float:left;
+		margin: 6px 2px;;
+	}
+	#week-navbar{
+		padding-left: 5px;
+		padding-right: 5px;
+	}
+	#week-form{
+		border-top-style: none;
+		border-bottom-style: none;
+		box-shadow: none;
+	}
 }
 .table-data{
-	background-color: #e0ebee;	
+	background-color: #e0ebee;
 }
 .well{
 	margin-top: 2px ;
@@ -136,4 +148,7 @@ tr, td{
 }
 .comment{
 	display:inline;
+}
+#weekOfYear{
+	width:60px;
 }

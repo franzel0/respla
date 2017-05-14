@@ -104,7 +104,7 @@
     					<span class="icon-bar"></span>
     				</button>
     				@if (Auth::check())
-    				<a class="navbar-brand" href="/">respla beta - {{Auth::user()->department->name }}</a>
+    				<a class="navbar-brand" href="/">respla beta @if(!\Request::route()->getName()=='overviewoncalls') - {{ Auth::user()->department->name }}@endif</a>
     				@else
     				<a class="navbar-brand" href="/">respla beta</a>
     				@endif
@@ -114,12 +114,19 @@
     				@if (Auth::check())
 
     				<ul class="nav navbar-nav">
+                        <li><a href="{{ route('overviewOncalls', [Auth::user()->company->id])}}">Gemeinsame Dienste</a></li>
     					<li><a href="{{ url('/month') }}">Monat</a></li>
     					<li><a href="{{ url('/week') }}">Woche</a></li>
                         <li><a href="{{ url('/day') }}">Tag</a></li>
-    					<li><a href="{{ url('/plan') }}">Plan</a></li>
+                        <li><a href="{{ url('/test') }}">test</a></li>
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Planung..<span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ url('/planDepartment') }}">.. innerhalb der Abteilung</a></li>
+                                <li><a href="{{ url('/planCompany') }}">.. übergreifend</a></li>
+                            </ul>
+                        </li>
     					<li><a href="{{ url('stats') }}">Stats</a></li>
-                        <li><a href="{{ url('/start') }}">start</a></li>
     				</ul>
 
                     <ul class="nav navbar-nav pull-right">
@@ -128,7 +135,6 @@
     						<ul class="dropdown-menu" role="menu">
     							<li><a href="{{ url('/auth/logout') }}">Logout</a></li>
     						    <li><a href="{{ route('password.index') }}">Passwort ändern</a></li>
-    						    <li class="divider" role="separator"></li>
     							@if (Auth::user()->can('editdepartmentsettings'))
     							<li><a href="{{ route('company.department.user.index', [Auth::user()->department->company->id, Auth::user()->department_id]) }}">Mitarbeiter</a></li>
     						    @else
@@ -138,29 +144,28 @@
                                     </a>
                                 </li>
                                 @endif
-                                @if (Auth::user()->hasRole('admin'))
+                                @permission('changedepartment')
                                 <li class="divider" role="separator"></li>
-                                <li><a href="{{ url('/admin/settings') }}">Rights&Perms</a></li>
+                                <li><a href="{{ route('company.show', [Auth::user()->company->id]) }}">Klinik</a></li>
+                                <li><a href="{{ route('company.department.index', [Auth::user()->department->company->id]) }}">Abteilung</a></li>
+                                @endpermission
+                                @permission('editoncalls')
+                                <li><a href="{{ route('company.oncall.index', [Auth::user()->department->company->id]) }}">Gemeinsame Dienste</a></li>
+                                <li><a href="{{ route('company.oncallssorder', [Auth::user()->department->company->id]) }}">Dienstübersicht</a></li>
+                                @endpermission
+                                @permission('editdepartmentsettings')
+                                <li><a href="{{ route('company.department.position.index', [Auth::user()->department->company->id, Auth::user()->department_id])}}">Positionen</a></li>
+                                <li><a href="{{ route('company.department.section.index', [Auth::user()->department->company->id, Auth::user()->department_id])}}">Stationen</a></li>
+                                <li><a href="{{ route('company.department.holiday.index', [Auth::user()->department->company->id, Auth::user()->department_id])}}">Ferien</a></li>
+                                <li><a href="{{ route('company.department.entry.index', [Auth::user()->department->company->id, Auth::user()->department_id])}}">Einträge</a></li>
                                 <li><a href="{{ route('company.department.info.index', [Auth::user()->department->company->id, Auth::user()->department_id]) }}">Klinik-Info</a></li>
+                                @endpermission
+                                @role('admin')
+                                <li><a href="{{ url('/admin/settings') }}">Rights&Perms</a></li>
     							<li><a href="{{ route('role.index') }}">Rollen</a></li>
     							<li><a href="{{ route('permission.index') }}">Rechte</a></li>
-                                @endif
-                                @if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('companyadmin'))
-                                <li><a href="{{ route('company.show', [Auth::user()->company->id]) }}">Klinik</a></li>
-                                <li>
-                                    <a href="{{ route('company.department.index', [Auth::user()->department->company->id]) }}">
-                                        Abteilung
-                                    </a>
-                                </li>
-                                @endif
-    							@if (Auth::user()->can('editdepartmentsettings'))
-    							<li><a href="{{ route('company.department.position.index', [Auth::user()->department->company->id, Auth::user()->department_id])}}">Positionen</a></li>
-    							<li><a href="{{ route('company.department.section.index', [Auth::user()->department->company->id, Auth::user()->department_id])}}">Stationen</a></li>
-    							<li><a href="{{ route('company.department.holiday.index', [Auth::user()->department->company->id, Auth::user()->department_id])}}">Ferien</a></li>
-    							@endif
-    							@if(Auth::user()->can('editdepartmentsettings'))
-    							<li><a href="{{ route('company.department.entry.index', [Auth::user()->department->company->id, Auth::user()->department_id])}}">Einträge</a></li>
-    							@endif
+                                <li><a href="{{ url('/start') }}">Demo-Einrichtungen</a></li>
+                                @endrole
     						</ul>
     					</li>
                     </ul>
@@ -169,6 +174,7 @@
                         <ul class="nav navbar-nav pull-right">
                             <li><a href="{{ url('auth/register') }}">Registrieren</a></li>
                             <li><a href="{{ url('screenshots') }}">Screenshots</a></li>
+                            <li><a href="{{ url('demo') }}">Demo</a></li>
                             <li><a href="{{ route('impressum') }}">Impressum</a></li>
                         </ul>
                     @endif

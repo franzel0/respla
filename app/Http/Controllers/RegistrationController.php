@@ -29,7 +29,7 @@ class RegistrationController extends Controller
         $user->confirmation_code = null;
         $user->save();
 
-        Session::flash('registered', 'Sie haben sich erfolgreich registriert.');
+        Session::flash('registered', $user->name.': Sie haben sich erfolgreich registriert.');
 
         return view('auth/login');
     }

@@ -12,12 +12,6 @@
 			};
 		});
 
-		/*$.ajaxSetup({
-			headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        	}
-    	});*/
-		
 		$("#search").keyup(function(){
 			var x = $(this).val();
 			if (x != "") {
@@ -28,7 +22,6 @@
 				$(".panel-body li").show();
 			}
 		});
-
 
 		//changing the department when updating selectform
 		$('#company_id').on('change', function(e){
@@ -53,7 +46,6 @@
     		route = route.replace(':department', $('#department_id').val());
     		window.location.href = route;
     	});
-
 	});
 </script>
 @endsection
@@ -65,17 +57,17 @@
 		<div class="col-md-10 col-md-offset-1">
 			<div class="panel panel-default">
 				<div class="panel-heading">Mitarbeiter</div>
-				<div class="panel-body">					
+				<div class="panel-body">
   					<div class="row">
 					    @if (isset($user))
                         {!! Form::model($user, ['method' => 'PATCH', 'route' => ['company.department.user.update', $company_id, $department_id, $user->id]]) !!}
                         @else
                         {!! Form::open(['route' => ['company.department.user.store', $company_id, $department_id]]) !!}
                         @endif
-  					
+
   						<div class="col-md-6 col-padding-top-5">
   							<div class="panel panel-default">
-  							
+
 								<div class="panel-heading">Mitarbeiter</div>
 								<div class="panel-body listitems">
 									@if(Session::has('flash_message'))
@@ -86,7 +78,7 @@
 
 									@include('admin.select_company_department')
 
-    							@if(Auth::user()->can('edituser'))	
+    							@if(Auth::user()->can('edituser'))
                                 <div class="input-group">
     									<a href="{{ route('company.department.user.create', [$company_id, $department_id])  }}" class="btn btn-success">Mitarbeiter hinzufügen</a>
     								</div>
@@ -125,7 +117,13 @@
                                                 {!! Form::label('name', 'Login-Name') !!}
                                                 {!! Form::text('name', null, ['class' => 'form-control', 'required' => 'required']) !!}
                                                 <small class="text-danger">{{ $errors->first('name') }}</small>
-                                            </div>
+											</div>
+
+											<div class="form-group{{ $errors->has('phone1') ? ' has-error' : '' }}">
+												{!! Form::label('phone1', '1. Telefonnummer') !!}
+												{!! Form::text('phone1', null, ['class' => 'form-control']) !!}
+												<small class="text-danger">{{ $errors->first('phone1') }}</small>
+											</div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -133,17 +131,23 @@
                                                 {!! Form::text('lastname', null, ['class' => 'form-control', 'required' => 'required']) !!}
                                                 <small class="text-danger">{{ $errors->first('name') }}</small>
                                             </div>
-                        
+
                                             <div class="form-group">
                                                 {!! Form::label('email', 'E-Mail') !!}
                                                 {!! Form::text('email', null, ['class' => 'form-control', 'required' => 'required']) !!}
                                                 <small class="text-danger">{{ $errors->first('email') }}</small>
                                             </div>
+
+											<div class="form-group{{ $errors->has('phone2') ? ' has-error' : '' }}">
+											    {!! Form::label('phone2', '2. Telefonnummer') !!}
+											    {!! Form::text('phone2', null, ['class' => 'form-control',]) !!}
+											    <small class="text-danger">{{ $errors->first('phone2') }}</small>
+											</div>
                                         </div>
                                     </div>
-                
-                                    @if(Auth::user()->can('edituser'))
-                                    
+
+                                @if(Auth::user()->can('edituser'))
+
                                     @if(!isset($user))
                                     <div class="row">
                                         <div class="col-md-6">
@@ -162,19 +166,19 @@
                                         </div>
                                     </div>
                                     @endif
-                
+
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 {!! Form::label('position_id', 'Position') !!}
-                                                {!! Form::select('position_id', $position_list, null, ['class' => 'select2', 'required' =>    '    required']) !!}
+                                                {!! Form::select('position_id', $position_list, null, ['class' => 'select2', 'required' => 'required']) !!}
                                                 <small class="text-danger">{{ $errors->first('position_id') }}</small>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 {!! Form::label('section_id', 'Station') !!}
-                                                {!! Form::select('section_id', $section_list, null, ['class' => 'select2', 'required' => 'required   '])    !!}
+                                                {!! Form::select('section_id', $section_list, null, ['class' => 'select2', 'required' => 'required'])    !!}
                                                 <small class="text-danger">{{ $errors->first('section_id') }}</small>
                                             </div>
                                         </div>
@@ -183,7 +187,7 @@
                                         <div class="col-md-6">
                                             <div class="input-group">
                                                <div class="input-group-addon">
-                                                  {!! Form::checkbox('active', null, null, ['id' => 'active']) !!} 
+                                                  {!! Form::checkbox('active', null, null, ['id' => 'active']) !!}
                                                 </div>
                                                <span class="form-control">
                                                 Der Mitarbeiter ist aktiv
@@ -193,16 +197,26 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="input-group">
-      				              			            <div class="input-group-addon">
-                                                  {!! Form::checkbox('visible', null, null, ['id' => 'visible']) !!} 
+      				              				<div class="input-group-addon">
+                                                  	{!! Form::checkbox('visible', null, null, ['id' => 'visible']) !!}
                                                 </div>
-      				              			            <span class="form-control">
-      				              			            	In Monat und Tag sichtbar
-      				              			            </span>
+      				              			    <span class="form-control">
+      				              			    	In Monat und Tag sichtbar
+      				              			    </span>
                                                 <small class="text-danger">{{ $errors->first('visible') }}</small>
                                             </div>
                                         </div>
                                     </div>
+
+									<div class="row">
+										<div class="col-md-12">
+											<div class="form-group{{ $errors->has('oncall') ? ' has-error' : '' }}">
+												{!! Form::label('oncalls[]', 'Departmentübergreifend Einträge / Dienste') !!}
+												{!! Form::select('oncalls[]', \App\Company::find($company_id)->entries()->orderBY('name')->lists('name', 'id'), $oncall, ['class' => 'form-control', 'required' => 'required', 'multiple']) !!}
+												<small class="text-danger">{{ $errors->first('oncalls[]') }}</small>
+											</div>
+										</div>
+									</div>
 
                                     <div class="well well-sm">
                                         @if(Auth::user()->can('changeroles') || Auth::user()->can('changecompanyroles') || Auth::user()->can('changedepartmentroles'))
@@ -216,16 +230,16 @@
                                         @else
                                             <div class="input-group">
                                               <div class="input-group-addon">
-                                                  Berechtigung 
+                                                  Berechtigung
                                               </div>
                                               <span class="form-control">
-                                                  {{Auth::user()->ownrole->display_name}}  
+                                                  {{Auth::user()->ownrole->display_name}}
                                               </span>
                                               {!! Form::hidden('role_id', Auth::user()->ownrole->role_id) !!}
                                             </div>
                                         @endif <!--changeroles-->
                                     </div>
-                                    @else
+								@else<!--else edituser-->
                                     <div class="input-group minwidth120">
                                         <span class="input-group-addon">Position</span>
                                         <span class="form-control">{{Auth::user()->position->name}}</span>
@@ -241,18 +255,28 @@
                                     </div>
                                     @endif
                                     {!! Form::hidden('department_id', $department_id) !!}
-                                    @endif <!--edituser-->
-                                    
-                                    @if(isset($user))
+
+									<div class="input-group minwidth120">
+										<span class="input-group-addon">Übergreifende Dienst</span>
+										<span class="form-control">
+											@foreach(Auth::user()->oncalls as $e)
+												{{$e->name}},
+											@endforeach
+										</span>
+									</div>
+
+								@endif <!--edituser-->
+
+                                @if(isset($user))
                                         {!! Form::submit('Speichern', ['class' => 'btn btn-info pull-right']) !!}
-                    
+
                                         @else
-                    
+
                                         <div class="btn-group pull-right">
                                             {!! Form::submit("Hinzufügen & Speichern", ['class' => 'btn btn-info']) !!}
                                         </div>
                                     @endif
-                                </div>           								
+                                </div>
   							</div>
   						</div>
                         {!! Form::close() !!}

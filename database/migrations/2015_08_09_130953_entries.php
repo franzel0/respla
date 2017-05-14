@@ -12,9 +12,9 @@ class Entries extends Migration
      */
     public function up()
     {
-        
+
         Schema::table('entries', function (Blueprint $table) {
-            $table->integer('department_id');
+            $table->integer('department_id')->default(0);
         });
     }
 

@@ -45,6 +45,10 @@ Route::get('screenshots', ['as' => 'screenshots', function(){
     return view('screenshots');
 }]);
 
+Route::get('demo', ['as' => 'demo', function(){
+    return view('demo');
+}]);
+
 // Password reset link request routes...
 Route::get('password/email', 'Auth\PasswordController@getEmail');
 Route::post('password/email', 'Auth\PasswordController@postEmail');
@@ -60,6 +64,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::resource('company', 'CompanyController');
 
     Route::resource('company.department', 'DepartmentController');
+
+    Route::resource('company.oncall', 'OnCallController', ['only' => ['index', 'create', 'store', 'edit', 'update']]);
+
+    Route::get('company/{company}/oncallsorder', ['as' => 'company.oncallssorder', 'uses' => 'OnCallController@show']);
+
+    Route::get('company/{company}/overview', ['as' => 'overviewOncalls', 'uses' => 'ViewOnCallController@index']);
+
+    Route::post('/changeOncallOrder', 'OnCallController@changeOncallOrder');
 
     Route::resource('role', 'RoleController');
 
@@ -118,19 +130,59 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('stats', 'StatsController@index');
 
 
-    Route::get('plan', 'PlanController@index');
-    Route::post('plan', 'PlanController@index');
+    Route::get('planDepartment', 'PlanController@indexDepartment');
+    Route::post('planDepartment', 'PlanController@indexDepartment');
+
+    Route::get('planCompany', 'PlanController@indexCompany');
+    Route::post('planCompany', 'PlanController@indexCompany');
+
     Route::post('insertPlanEvent', 'PlanController@insertPlanEvent');
     Route::post('deletePlanEvent', 'PlanController@deletePlanEvent');
+    Route::post('updateUserEvents', 'PlanController@updateUserEvents');
     Route::post('updateStats', 'PlanController@updateStats');
+    Route::post('approvePlanEvents', 'PlanController@approvePlanEvents');
 
-    Route::get('start', 'Custom_DateController@index');
+    Route::get('start', 'StartController@index');
+    Route::post('start', 'StartController@destroy');
+    Route::get('start.create', 'StartController@create');
 
+    //routes for Ajax-functions
     Route::post('insertEvents', 'EventController@insertEvents');
-
     Route::post('modalinsertEvents', 'EventController@modalinsertEvents');
+    Route::post('modalChangeUser', 'ViewOnCallController@changeUser');
+    Route::post('modalGetUsers', 'ViewOnCallController@GetUsers');
+    Route::post('modalUserHasEvent', 'ViewOnCallController@modalUserHasEvent');
 
     Route::post('insertcomment', 'CommentController@insertcomment');
+
+    Route::get('test',function () {
+        //Vergleich der verschiedenene Abfragen MySql Abfrage gegenübergestellt!!!
+        $events = \App\Event::all();
+        $result = "nix!";
+        $time_start = microtime(true);
+        if($ev = $events->where('date', '2016-03-18')->where('user_id', '1115') and $ev->count()>0) {
+            $result1 = $ev->first()->user->lastname;
+        }
+        $time_end = microtime(true);
+        $time1 = $time_end - $time_start;
+
+        $time_start = microtime(true);
+        if($ev = $events->filter(function($item) { if($item->date == '2016-03-18' && $item->user_id == '1115') return true;}) and $ev->count()>0) {
+            $result2 = $ev->first()->user->lastname;
+        }
+        $time_end = microtime(true);
+        $time2 = $time_end - $time_start;
+
+        $time_start = microtime(true);
+        $event = \App\Event::where('date', '=', '2016-03-18')
+                            ->where('user_id', '=', '1115')
+                            ->get();//dd($event);;
+        $result3 = $event->first()->user->lastname;
+        $time_end = microtime(true);
+        $time3 = $time_end - $time_start;
+
+        return $result1.", where Zeit: ".$time1." / ".$result2.", filter Zeit: ".$time2." / ".$result3.", MySql Zeit: ".$time3;
+    });
 
 });
 

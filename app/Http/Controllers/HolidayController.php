@@ -9,7 +9,7 @@ use App\Http\Requests\HolidayRequest;
 use App\Http\Controllers\Controller;
 use App\Classes\lists;
 use Session;
-use Auth;   
+use Auth;
 use Carbon;
 
 
@@ -22,14 +22,14 @@ class HolidayController extends Controller
      */
     public function index(HolidayRequest $request, $company_id, $department_id)
     {
-        $company_list = Lists::companies();
-        
+        //$company_list = Lists::companies();
+
         $department_list = \App\Company::find($company_id)->departments->sortBy('name')->lists('name', 'id');
 
         if($department_id == 0) $department_id = Lists::firstdepartment_id($company_id);
 
         $holiday_list = Lists::holidays($department_id);
-        return view('admin/holiday', compact('company_list', 'company_id', 'department_list', 'department_id', 'holiday_list'));
+        return view('admin/holiday', compact( 'company_id', 'department_id', 'holiday_list'));
     }
 
     /**
@@ -40,13 +40,13 @@ class HolidayController extends Controller
     public function create(HolidayRequest $request, $company_id, $department_id)
     {
         $company_list = Lists::companies();
-        
+
         $department_list = \App\Company::find($company_id)->departments->sortBy('name')->lists('name', 'id');
 
         if($department_id == 0) $department_id = Lists::firstdepartment_id($company_id);
 
         $holiday_list = Lists::holidays($department_id);
-        
+
         return view('admin/holiday', compact('company_list', 'company_id', 'department_list', 'department_id', 'holiday_list'));
     }
 
@@ -65,9 +65,9 @@ class HolidayController extends Controller
         ]);
 
         $input = $request->all();
-        
+
         $holiday = new \App\Holiday($input);
-        
+
         $holiday->date_from = date('Y-m-d',strtotime($request->date_from));
 
         $holiday->date_to = date('Y-m-d', strtotime($request->date_to));
@@ -81,9 +81,9 @@ class HolidayController extends Controller
         $department_list = Lists::departments($company_id);
         if($department_id == 0) $department_id = Lists::firstdepartment_id($company_id);
         $holiday_list = Lists::holidays($department_id);
-        
+
         return view('admin/holiday', compact('company_list', 'company_id', 'department_list', 'department_id', 'holiday_list', 'holiday'));
-    
+
 
     }
 
@@ -116,7 +116,7 @@ class HolidayController extends Controller
 
         $holiday = \App\Holiday::findOrFail($holiday_id);
 
-        return view('admin/holiday', compact('company_list', 'company_id', 'department_list', 'department_id', 'holiday_list', 'holiday'));        
+        return view('admin/holiday', compact('company_list', 'company_id', 'department_list', 'department_id', 'holiday_list', 'holiday'));
 
     }
 
@@ -133,27 +133,27 @@ class HolidayController extends Controller
             'name' => 'required',
             'date_from' => 'required',
             'date_to' => 'required',
-        ]);   
+        ]);
 
         $holiday = \App\Holiday::findOrFail($holiday_id);
-        
+
         $holiday->date_from = date('Y-m-d',strtotime($request->date_from));
 
         $holiday->date_to = date('Y-m-d', strtotime($request->date_to));
 
         $holiday->name = $request->name;
-        
+
         $holiday->save();
-        
+
         $company_list = Lists::companies();
-        
+
         $department_list = Lists::departments($company_id);
-        
+
         if($department_id == 0) $department_id = Lists::firstdepartment_id($company_id);
-        
+
         $holiday_list = Lists::holidays($department_id);
-        
-        return view('admin/holiday', compact('company_list', 'company_id', 'department_list', 'department_id', 'holiday_list', 'holiday'));        
+
+        return view('admin/holiday', compact('company_list', 'company_id', 'department_list', 'department_id', 'holiday_list', 'holiday'));
     }
 
     /**

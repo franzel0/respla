@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
         Model::unguard();
         //$this->call(DepartmentsTableSeeder::class);
         //$this->call(Days_in_MonthsTableSeeder::class);
-        $this->call(Custom_DatesTableSeeder::class);
+        $this->call(DemoUsers::class);
         //$this->call(CustomDatesItemsSeeder::class);
 
         Model::reguard();

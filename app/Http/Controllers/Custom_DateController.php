@@ -19,18 +19,7 @@ class Custom_DateController extends Controller
      */
     public function index(Request $request)
     {
-        $route = $request->route();
-        $start = new CArbon("2016-01-01");
-        $end = new Carbon("2016-01-31");
-        $customdate = \App\Company::find(Auth::user()->department->company->id)->customdatesitems()
-                    ->leftJoin('custom_dates', 'custom_dates_items.id', '=', 'custom_dates.items_id')
-                    ->whereBetween('custom_dates.date', [$start->toDateString(), $end->toDateString()])
-                    ->select('custom_dates.date')
-                    ->get()
-                    ->toArray();
-
-        $custom_dates = array_flatten($customdate, 'date');
-        return view('start', compact('route', 'custom_dates', 'start', 'end'));
+        
     }
 
     /**

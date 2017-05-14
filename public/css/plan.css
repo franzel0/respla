@@ -79,6 +79,8 @@ td span{
 }
 .title-form{
 	padding-top: 5px;
+	padding-bottom: 5px;
+	height:40px;
 }
 /* Large devices (large desktops, 1200px and up) */
 @media (max-width: 1300px) {

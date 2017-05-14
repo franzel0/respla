@@ -9,12 +9,12 @@ use App\Http\Requests\EntryRequest;
 use App\Http\Controllers\Controller;
 use App\Classes\lists;
 use Session;
-use Auth;   
+use Auth;
 
 
 class EntryController extends Controller
 {
-    
+
     /*
      * Display a listing of the resource.
      *
@@ -23,13 +23,13 @@ class EntryController extends Controller
     public function index(EntryRequest $request, $company_id, $department_id)
     {
         $company_list = Lists::companies();
-        
+
         $department_list = \App\Company::find($company_id)->departments->sortBy('name')->lists('name', 'id');
 
         if($department_id == 0) $department_id = Lists::firstdepartment_id($company_id);
 
         $entry_list = Lists::entries($department_id);
-        
+
         return view('admin/entry', compact('company_list', 'company_id', 'department_list', 'department_id', 'entry_list'));
     }
 
@@ -41,13 +41,13 @@ class EntryController extends Controller
     public function create(EntryRequest $request, $company_id, $department_id)
     {
         $company_list = Lists::companies();
-        
+
         $department_list = \App\Company::find($company_id)->departments->sortBy('name')->lists('name', 'id');
 
         if($department_id == 0) $department_id = Lists::firstdepartment_id($company_id);
 
         $entry_list = Lists::entries($department_id);
-        
+
         return view('admin/entry', compact('company_list', 'company_id', 'department_list', 'department_id', 'entry_list'));
     }
 
@@ -75,10 +75,13 @@ class EntryController extends Controller
         $entry->wish = ($request->has('wish')) ? true : false;
 
         $entry->present = ($request->has('present')) ? true : false;
-        
+
         $entry->right = ($request->has('right')) ? true : false;
 
         $entry->onweekend = ($request->has('onweekend')) ? true : false;
+
+        $entry->isvisible = ($request->has('isvisible')) ? true : false;
+        $entry->isactive = ($request->has('isactive')) ? true : false;
 
         $entry->save();
 
@@ -89,9 +92,9 @@ class EntryController extends Controller
         $department_list = Lists::departments($company_id);
         if($department_id == 0) $department_id = Lists::firstdepartment_id($company_id);
         $entry_list = Lists::entries($department_id);
-        
+
         return view('admin/entry', compact('company_list', 'company_id', 'department_list', 'department_id', 'entry_list', 'entry'));
-    
+
 
     }
 
@@ -122,9 +125,9 @@ class EntryController extends Controller
 
         $entry_list = Lists::entries($department_id);
 
-        $entry = \App\Entry::findOrFail($entry_id); 
+        $entry = \App\Entry::findOrFail($entry_id);
 
-        return view('admin/entry', compact('company_list', 'company_id', 'department_list', 'department_id', 'entry_list', 'entry'));        
+        return view('admin/entry', compact('company_list', 'company_id', 'department_list', 'department_id', 'entry_list', 'entry'));
 
     }
 
@@ -146,27 +149,30 @@ class EntryController extends Controller
 
         $entry = \App\Entry::findOrFail($entry_id);
 
-        $entry->fill($request->all());
+        $entry->fill($request->except(['company_id']));
 
         $entry->wish = ($request->has('wish')) ? true : false;
 
         $entry->present = ($request->has('present')) ? true : false;
-        
+
         $entry->right = ($request->has('right')) ? true : false;
 
         $entry->onweekend = ($request->has('onweekend')) ? true : false;
 
+        $entry->isvisible = ($request->has('isvisible')) ? true : false;
+        $entry->isactive = ($request->has('isactive')) ? true : false;
+
         $entry->save();
-        
+
         $company_list = Lists::companies();
-        
+
         $department_list = Lists::departments($company_id);
-        
+
         if($department_id == 0) $department_id = Lists::firstdepartment_id($company_id);
-        
+
         $entry_list = Lists::entries($department_id);
-        
-        return view('admin/entry', compact('company_list', 'company_id', 'department_list', 'department_id', 'entry_list', 'entry'));        
+
+        return view('admin/entry', compact('company_list', 'company_id', 'department_list', 'department_id', 'entry_list', 'entry'));
     }
 
     /**

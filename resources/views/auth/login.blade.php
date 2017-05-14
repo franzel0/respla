@@ -7,12 +7,12 @@
 @section('content')
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-md-5 col-md-offset-1 col-sm-6">
+		<div class="col-md-5 col-md-offset-1 col-sm-6 hidden-xs">
 			<div class="panel panel-default">
 				<div class="panel-heading">Was ist respla?</div>
 				<div class="panel-body">
 					<div class="well">
-						<h3>Organisiere Mitarbeiter oder Mitglieder in einer Abteilung, Firma oder Verein einfach und übersichtlich</h3>
+						<h3>Einfach und übersichtlich Mitarbeiter in einer Abteilung oder Firma oder Mitglieder in einem Verein organisieren!</h3>
 						<h3>Wie funktioniert's?</h3>
 						<ul>
 							<li>
@@ -47,7 +47,7 @@
 							</li>
 							<li>
 								<p class="list_title">
-									<span class="glyphicon glyphicon-picture" aria-hidden="true"></span>Feiertage und Ferienzeiten
+									<span class="glyphicon glyphicon-picture" aria-hidden="true"></span>Feiertage & Ferien
 								</p>
 								<p class="list_body">Feiertage werden berücksichtigt; Ferien und andere Veranstaltungen können eingefügt werden</p>
 							</li>
@@ -65,7 +65,7 @@
 						</ul>
 						<h3><a href="{{ url('screenshots') }}">Screenshots</a></h3>
 						<h3>Wie gehts?</h3>
-						<p class="list_body" style="color: #34495e;font-size: 16px;">Einfach registrieren oder schreib uns eine E-Mail an <a href="mailto:kontakt@respla.de" target="_top">kontakt@respla.de</a>.</p> 
+						<p class="list_body" style="color: #34495e;font-size: 16px;">Einfach registrieren oder schreib uns eine E-Mail an <a href="mailto:kontakt@respla.de" target="_top">kontakt@respla.de</a>.</p>
 					</div>
 				</div>
 			</div>

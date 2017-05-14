@@ -21,12 +21,12 @@ class Event extends Model
                      ->where('date', '<=', $to);
                      //->wherein('user_id', user()->select('id')->where('department_id', '=', Auth::user()->department_id));
     }
-    
+
     public function user()
     {
         return $this->belongsTo('App\User');
     }
-    
+
     public function entry()
     {
         return $this->hasOne('App\Entry', 'id', 'entry_id');
@@ -36,15 +36,15 @@ class Event extends Model
      * Scope a query to get all holidays of company in range.
      *
      * @return \Illuminate\Database\Eloquent\Builder
-     *
+     */
     public function scopeHolidaysInMonth($query, $company, $day)
     {
         $dates = Lists::customdatesinmonth($day, 1);
         return $query->whereIn('date', $dates);
-    }*/
+    }
     /*
     * Scope the daytype
-    * 1-7= wekkday, 8 = holiday
+    * 1-7= weekday, 8 = holiday
     */
     public function scopedayType($query, $company)
     {

@@ -37,6 +37,9 @@
 .notapproved{
     background-image: url({{ URL::asset('/img/bg.png') }});
 }
+.present_na{
+    background-image: url({{ URL::asset('/img/bg_present_na.png') }});
+}
 
 .today{
     background-color: green;
@@ -101,32 +104,24 @@ $weekday = array(0 => "Montag",
                                     {!! Form::hidden('day', $startofmonth->toDateString()) !!}
                                     <div class="form-group">
                                         {!!Form::button('<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>', array('name' => 'back', 'class' => 'btn btn-primary', 'type' => 'submit', 'value' => '1'))!!}
-                                    </div>
-                                    <div class="form-group">
+
+                                        {!!Form::button('<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>', array('name' => 'next', 'class' => 'btn btn-primary', 'type' => 'submit', 'value' => '1'))!!}
+
                                         {!!Form::label('month', 'Monat', array('class' => 'hidden-xs'))!!}
                                         {!!Form::select('month', $monate, $startofmonth->month, array('class' => 'form-control'))!!}
-                                    </div>
-                                    <div class="form-group">
+
                                         {!!Form::label('year', 'Jahr', array('class' => 'hidden-xs'))!!}
                                         {!!Form::text('year', $startofmonth->year, array('size' => '4', 'placeholder' => 'Jahr', 'class' => 'form-control'))    !!}
-                                    </div>
-                                    <div class="form-group">
+
                                         {!!Form::button('<span class="glyphicon glyphicon-search" aria-hidden="true"></span>', array('class' => 'btn btn-primary', 'type' => 'submit', 'value' => '1'))!!}
-                                    </div>
-                                    <div class="form-group">
+
                                         {!!Form::submit('JETZT', array('name' => 'this', 'class' => 'btn btn-primary'))!!}
-                                    </div>
-                                    <div class="form-group">
-                                        {!!Form::button('<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>', array('name' => 'next', 'class' => 'btn btn-primary', 'type' => 'submit', 'value' => '1'))!!}
-                                    </div>
-                                    <div class="form-group">
+
                                         {!!Form::label('position', 'Positon', array('class' => 'hidden-xs'))!!}
                                         {!!Form::select('position', $positionList, $position, array('class' => 'form-control'))!!}
-                                    </div>
-                                    <div class="form-group">
+
                                         <a href="{{action('PdfController@month', ['department' => Auth::user()->department_id, 'startofmonth' => $startofmonth->toDateString(), 'position' => $position])}}" class="btn btn-primary" target="_blank"><i class="glyphicon glyphicon-print" aria-hidden="true"></i></a>
-                                    </div>
-                                    <div class="form-group">
+
                                         <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#insert_events">
                                             <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
                                         </button>
@@ -178,7 +173,7 @@ $weekday = array(0 => "Montag",
                                             <tr data-id={{$e->userid}}>
                                         @endif
 
-                                            <td class="{{$e->class1}} {{$e->class2}} {{$e->class3}} {{$e->class4}}"  data-date="{{$e->d}}" data-event_id="{{$e->eventid}}" data-approved="{{$e->class4}}" title="Datum: {{$weekday[$e->weekday]}} {{$e->cusname}}&#10;Eintrag: {{$e->entryname}}&#010;Bemerkung: {{$e->  comment}}">
+                                            <td class="{{$e->class1}} {{$e->class2}} {{$e->class3}} {{$e->class4}} @if($e->present && $e->class4 == 'notapproved')present_na @endif"  data-date="{{$e->d}}" data-event_id="{{$e->eventid}}" data-approved="{{$e->class4}}" title="Datum: {{$weekday[$e->weekday]}} {{$e->cusname}}&#10;Eintrag: {{$e->entryname}}&#010;Bemerkung: {{$e->  comment}}">
                                                 {{$e->shorttext}} @if($e->comment <> '')<br><span class='badge'>K</span> @endif
                                             </td>
 

@@ -9,7 +9,7 @@ use App\Http\Requests\UserRequest;
 use App\Http\Controllers\Controller;
 use App\Classes\lists;
 use Session;
-use Auth;   
+use Auth;
 
 class UserController extends Controller
 {
@@ -21,22 +21,24 @@ class UserController extends Controller
     public function index(UserRequest $request, $company_id, $department_id)
     {
         $company_list = Lists::companies();
-        
+
         $department_list = \App\Company::find($company_id)->departments->sortBy('name')->lists('name', 'id');
 
         if($department_id == 0) $department_id = Lists::firstdepartment_id($company_id);
 
         $position_list = Lists::positions($department_id)->sortBy('name')->lists('name', 'id');
-        
+
         $section_list = Lists::sections($department_id)->lists('fullname', 'id');
-        
+
         $users = Lists::users($department_id);
 
         $roles = Lists::roles();
 
+        $oncall = null;
+
         $userrole = null;
-//return("hi");
-        return view('admin/user', compact('company_list', 'company_id', 'department_list', 'department_id', 'position_list', 'section_list', 'roles', 'userrole', 'users' ));
+
+        return view('admin/user', compact('company_list', 'company_id', 'department_list', 'department_id', 'position_list', 'section_list', 'roles', 'oncall', 'userrole', 'users' ));
     }
 
     /**
@@ -47,22 +49,24 @@ class UserController extends Controller
     public function create(UserRequest $request, $company_id, $department_id)
     {
         $company_list = Lists::companies();
-        
+
         $department_list = Lists::departments($company_id);
 
         if($department_id == 0) $department_id = Lists::firstdepartment_id($company_id);
 
         $position_list = Lists::positions($department_id)->sortBy('name')->lists('name', 'id');
-        
+
         $section_list = Lists::sections($department_id)->lists('fullname', 'id');
-        
+
         $users = Lists::users($department_id);
 
         $roles = Lists::roles();
-        
+
+        $oncall = null;
+
         $userrole = null;
-        
-        return view('admin/user', compact('company_list', 'company_id', 'department_list', 'department_id', 'position_list', 'section_list', 'roles', 'userrole', 'users'));
+
+        return view('admin/user', compact('company_list', 'company_id', 'department_list', 'department_id', 'position_list', 'section_list', 'roles', 'userrole', 'oncall', 'users'));
     }
 
     /**
@@ -91,7 +95,7 @@ class UserController extends Controller
             $user->active = true;
         }
         else{
-            $user->active = false;   
+            $user->active = false;
         }
         $user->password = bcrypt($user->password);
         $user->confirmed = 1;
@@ -117,13 +121,15 @@ class UserController extends Controller
         $section_list = Lists::sections($department_id)->lists('fullname', 'id');
 
         $roles = Lists::roles();
-        
+
         $users = Lists::users($department_id);
-        
+
         $userrole = null;
 
-        return view('admin/user', compact('company_list', 'company_id', 'department_list', 'department_id', 'position_list', 'section_list', 'roles', 'userrole', 'users'));
-        
+        $oncall = $user->oncalls()->lists('id')->toArray();
+
+        return view('admin/user', compact('company_list', 'company_id', 'department_list', 'department_id', 'position_list', 'section_list', 'roles', 'userrole', 'users', 'oncall'));
+
     }
 
     /**
@@ -144,7 +150,7 @@ class UserController extends Controller
      * @return Response
      */
     public function edit(UserRequest $request, $company_id, $department_id, $user_id)
-    {   
+    {
         $company_list = Lists::companies();
 
         $department_list = Lists::departments($company_id);
@@ -156,14 +162,16 @@ class UserController extends Controller
         $section_list = Lists::sections($department_id)->lists('fullname', 'id');
 
         $roles = Lists::roles();
-        
+
         $users = Lists::users($department_id);
 
         $user = \App\User::findOrFail($user_id);
 
+        $oncall = $user->oncalls()->lists('id')->toArray();
+
         $userrole = $user->ownrole->role_id;
-        
-        return view('admin/user', compact('company_list', 'company_id', 'department_list', 'department_id', 'position_list', 'section_list', 'roles', 'users', 'userrole', 'user')); 
+
+        return view('admin/user', compact('company_list', 'oncall', 'company_id', 'department_list', 'department_id', 'position_list', 'section_list', 'roles', 'users', 'userrole', 'user'));
     }
 
     /**
@@ -174,7 +182,7 @@ class UserController extends Controller
      * @return Response
      */
     public function update(UserRequest $request, $company_id, $department_id, $user_id)
-    { 
+    {
         $this->validate($request, [
             'lastname' => 'required',
             'firstname' =>'required',
@@ -183,8 +191,10 @@ class UserController extends Controller
             'name' => 'required',
             'position_id' =>'required|integer',
             'role_id' => 'required|integer',
+            'phone1' => 'string',
+            'phone2' => 'string',
         ]);
-        
+
         $user = \App\user::findOrFail($user_id);
 
         $user->fill($request->all());
@@ -192,7 +202,7 @@ class UserController extends Controller
         // set old role_id if not provided
         if (Auth::user()->can('changeroles') || Auth::user()->can('changecompanyroles') || Auth::user()->can('changedepartmentroles'))
         {
-            $user->ownrole->role_id = $request->input('role_id'); 
+            $user->ownrole->role_id = $request->input('role_id');
         }
         else
         {
@@ -203,14 +213,16 @@ class UserController extends Controller
             $user->active = true;
         }
         else{
-            $user->active = false;   
-        }   
+            $user->active = false;
+        }
 
         $user->push();
 
+        // synchronize the oncalls
+        $user->oncalls()->sync($request->oncalls);
 
         //Lists
-        
+
         $company_list = Lists::companies();
 
         $department_list = Lists::departments($company_id);
@@ -222,16 +234,18 @@ class UserController extends Controller
         $section_list = Lists::sections($department_id)->lists('fullname', 'id');
 
         $roles = Lists::roles();
-        
+
         $users = Lists::users($department_id);
 
         $userrole = $user->ownrole->role_id;
 
+        $oncall = $user->oncalls->lists('id')->toArray();
+
         Session::flash('flash_message', 'Mitarbeiter geändert!');
 
         //return ($request->position_id);
-        
-        return view('admin/user', compact('company_list', 'company_id', 'department_list', 'department_id', 'position_list', 'section_list', 'roles', 'users', 'userrole', 'user'));
+
+        return view('admin/user', compact('company_list', 'company_id', 'department_list', 'department_id', 'position_list', 'section_list', 'roles', 'users', 'userrole', 'user', 'oncall'));
     }
 
     /**

@@ -21,6 +21,8 @@ class AddVotesToUsersTable extends Migration
             $table->integer('position_id');
             $table->boolean('active');
             $table->softDeletes();
+            $table->boolean('confirmed')->default(0);
+            $table->string('confirmation_code')->nullable();
         });
     }
 

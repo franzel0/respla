@@ -121,7 +121,7 @@ lightbox.option({
                                 </a>
                             </div>
                             <div class="col-md-8 info_body">
-                                Übersichtliche Darstellung der einzelenen Einträge für jeden Mitarbeiter.
+                                Übersichtliche Darstellung der einzelnen Einträge für jeden Mitarbeiter.
                             </div>
                             <div class="col-md-12">
                                 <h3>... und vieles mehr!</h3>
