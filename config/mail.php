@@ -54,7 +54,10 @@ return [
     |
     */
 
-    'from' => ['address' => 'kontakt@respla.de', 'name' => 'respla.de'],
+    'from' => [
+       'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
+       'name' => env('MAIL_FROM_NAME', 'Example'),
+   ],
 
     /*
     |--------------------------------------------------------------------------
@@ -80,7 +83,7 @@ return [
     |
     */
 
-    'username' => env('kontakt@respla.de'),
+    'username' => env('MAIL_USERNAME'),
 
     /*
     |--------------------------------------------------------------------------
@@ -93,7 +96,7 @@ return [
     |
     */
 
-    'password' => env('15Chirurgie'),
+    'password' => env('MAIL_PASSWORD'),
 
     /*
     |--------------------------------------------------------------------------
